@@ -1,4 +1,5 @@
-(() => {
+window.addEventListener("load", () => {
+
   const canvas = document.getElementById("bg-canvas");
   const renderer = new THREE.WebGLRenderer({
     canvas,
@@ -6,7 +7,7 @@
     alpha: true
   });
 
-  renderer.setPixelRatio(1);  // مهم برای موبایل
+  renderer.setPixelRatio(1);
   renderer.setSize(innerWidth, innerHeight);
 
   const scene = new THREE.Scene();
@@ -16,7 +17,6 @@
 
   const clock = new THREE.Clock();
 
-  // --- Shader ---
   const uniforms = {
     uTime: { value: 0 },
     uMouse: { value: new THREE.Vector2(0.5, 0.5) }
@@ -72,7 +72,6 @@
   const mesh = new THREE.Mesh(geometry, material);
   scene.add(mesh);
 
-  // --- Events ---
   function handleMove(e){
     const x = (e.touches ? e.touches[0].clientX : e.clientX) / innerWidth;
     const y = 1 - (e.touches ? e.touches[0].clientY : e.clientY) / innerHeight;
@@ -88,7 +87,6 @@
     camera.updateProjectionMatrix();
   });
 
-  // --- Animation ---
   function animate(){
     uniforms.uTime.value = clock.getElapsedTime();
     renderer.render(scene, camera);
@@ -96,8 +94,8 @@
   }
   animate();
 
-  // --- Intro animations ---
   gsap.from(".title", { y:30, opacity:0, duration:1, delay:0.3 });
   gsap.from(".subtitle", { y:20, opacity:0, duration:1, delay:0.5 });
   gsap.from(".card", { y:20, opacity:0, stagger:0.1, duration:1, delay:0.7 });
-})();
+
+});
